@@ -14,6 +14,7 @@ class InstagramBot:
         self.email = email
         self.password = password
 
+
     def signIn(self):
         self.browser.get('https://www.instagram.com/accounts/login/')
         time.sleep(2)  # wait to get to the log-in screen
@@ -25,6 +26,7 @@ class InstagramBot:
         passwordInput.send_keys(self.password)
         passwordInput.send_keys(Keys.ENTER)
         time.sleep(4)  # wait for Instagram to log you in
+
 
     def followWithUsername(self, username):  # follow the specified user
         self.browser.get(username)
@@ -53,6 +55,7 @@ class InstagramBot:
             print("This user doesn't exist: " + username)
             pass
 
+
     def unfollowWithUsername(self, username):
         self.browser.get(username)
         time.sleep(2)
@@ -66,6 +69,7 @@ class InstagramBot:
             confirmButton.click()
         else:
             print("You are not following this user")
+
 
     def getUserFollowers(self, username, max_followers):  # get the followers of the specified user
         self.browser.get(username)
@@ -111,50 +115,6 @@ class InstagramBot:
 
         return followers
 
-"""
-    def getUserFollowers2(self, username, max):  # get the followers of the specified user
-        self.browser.get(username)
-        followersLink = self.browser.find_element_by_css_selector('ul li a')
-        followersLink.click()
-        time.sleep(3)  # wait for followers list to load
-
-        followersList = self.browser.find_element_by_css_selector('div[role=\'dialog\'] ul')
-
-        #numberOfFollowersInList = len(followersList.find_elements_by_css_selector('li'))
-
-        #print "Before = ", numberOfFollowersInList
-        #followersList.click()
-
-        #actionChain = webdriver.ActionChains(self.browser)
-
-        # We need to scroll the followers modal to ensure that all followers are loaded
-        while True:
-            self.browser.execute_script("followersbox.scrollTo(0, followersbox.scrollHeight);")
-
-            # Wait for page to load
-            time.sleep(0.5)
-
-            # Calculate new scrollHeight and compare with the previous
-            new_height = self.browser.execute_script("return followersbox.scrollHeight;")
-            if new_height == last_height:
-                break
-            last_height = new_height
-
-        followers = []
-        try:
-            for user in followersList.find_elements_by_css_selector('li'):
-                userLink = user.find_element_by_css_selector('a').get_attribute('href')
-                print(userLink)
-                followers.append(userLink)
-                if len(followers) == max:
-                    break
-        except:
-            print ("2nd exception hit!")
-            self.closeBrowser()
-            sys.exit()
-
-        return followers
-"""
 
     def CsvWrite(self, my_list, follower_csv):
         with open(follower_csv, mode='a+') as followers_file:
@@ -166,6 +126,7 @@ class InstagramBot:
             for i in my_list:
                 count += 1
                 followers_writer.writerow([count, i, datetime_object])
+
 
     def CsvRead(self):
         with open('mylist.csv') as csv_file:
