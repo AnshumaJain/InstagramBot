@@ -1,10 +1,11 @@
+import time
+import sys
+import datetime
+import random
+import csv
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import time
-import csv
-import datetime
-import sys
-import random
 
 
 class InstagramBot:
@@ -13,7 +14,6 @@ class InstagramBot:
         self.browser = webdriver.Chrome()
         self.email = email
         self.password = password
-
 
     def signIn(self):
         self.browser.get('https://www.instagram.com/accounts/login/')
@@ -27,7 +27,6 @@ class InstagramBot:
         passwordInput.send_keys(Keys.ENTER)
         time.sleep(4)  # wait for Instagram to log you in
 
-
     def followWithUsername(self, username):  # follow the specified user
         self.browser.get(username)
         time.sleep(2)  # not necessary
@@ -36,7 +35,6 @@ class InstagramBot:
             followButton = self.browser.find_elements_by_css_selector('button')[0]
 
             if followButton.text != 'Message':  # if you are not following the user
-
                 if followButton.text == 'Follow':
                     followButton.click()  # follow the user
                     print("followed public user: " + username)
@@ -55,7 +53,6 @@ class InstagramBot:
             print("This user doesn't exist: " + username)
             pass
 
-
     def unfollowWithUsername(self, username):
         self.browser.get(username)
         time.sleep(2)
@@ -69,7 +66,6 @@ class InstagramBot:
             confirmButton.click()
         else:
             print("You are not following this user")
-
 
     def getUserFollowers(self, username, max_followers):  # get the followers of the specified user
         self.browser.get(username)
@@ -115,7 +111,6 @@ class InstagramBot:
 
         return followers
 
-
     def CsvWrite(self, my_list, follower_csv):
         with open(follower_csv, mode='a+') as followers_file:
             followers_writer = csv.writer(followers_file, delimiter=',')
@@ -126,7 +121,6 @@ class InstagramBot:
             for i in my_list:
                 count += 1
                 followers_writer.writerow([count, i, datetime_object])
-
 
     def CsvRead(self):
         with open('mylist.csv') as csv_file:
